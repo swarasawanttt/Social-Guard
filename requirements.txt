@@ -1,0 +1,32 @@
+# Web app
+Flask>=3.0
+
+# Data / ML
+numpy
+pandas
+scikit-learn>=1.4
+scipy
+xgboost
+lightgbm
+joblib
+
+# Class imbalance handling (SMOTE)
+imbalanced-learn
+
+# Explainable AI -- used by src/xai.py
+# SHAP is used directly (shap.KernelExplainer). LIME is NOT installed as a
+# package -- the `lime` pip package failed to build in testing (a
+# setuptools/distutils "install_layout" incompatibility), so LIME's
+# algorithm (perturb -> weight -> fit a local linear model) is implemented
+# by hand in src/xai.py using only scikit-learn's Ridge regression, which
+# is already a dependency above. If you ever want the real `lime` package
+# instead, `pip install lime` and swap it in -- but it isn't required.
+shap
+matplotlib
+
+# PDF report generation
+reportlab
+
+# Screenshot OCR fallback (src/image_reader.py)
+pytesseract
+Pillow

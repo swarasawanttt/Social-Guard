@@ -1,0 +1,2 @@
+platform,handle,label,source,followers,following,posts,bio_len,full_name,external_url,has_profile_pic,is_verified,is_private
+Instagram,example_handle,Real,ig_real_midsize,5200,310,640,48,Example Person,,yes,no,no

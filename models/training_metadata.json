@@ -1,0 +1,384 @@
+{
+  "trained_at": "2026-11-20T19:10:56",
+  "dataset_file": "unified_raw.csv",
+  "total_samples": 20612,
+  "feature_columns": [
+    "followers_pr",
+    "following_pr",
+    "posts_pr",
+    "follower_following_ratio",
+    "activity_rate",
+    "bio_len",
+    "username_digit_ratio",
+    "name_eq_username",
+    "has_profile_pic",
+    "is_private"
+  ],
+  "dropped_columns": [
+    "verified",
+    "account_age_days"
+  ],
+  "random_state": 42,
+  "platform_is_model_input": false,
+  "split": {
+    "method": "stratified train_test_split by platform x class",
+    "test_size_fraction": 0.2,
+    "train_samples_original": 16489,
+    "test_samples": 4123
+  },
+  "class_balance": {
+    "train_cells_real_rows": {
+      "Facebook|Real": 398,
+      "Facebook|Bot": 82,
+      "Instagram|Real": 2676,
+      "Instagram|Fake": 1946,
+      "Instagram|Bot": 559,
+      "Twitter|Real": 2779,
+      "Twitter|Fake": 2674,
+      "Twitter|Bot": 5375
+    },
+    "test_cells": {
+      "Facebook|Real": 99,
+      "Facebook|Bot": 21,
+      "Instagram|Real": 669,
+      "Instagram|Fake": 487,
+      "Instagram|Bot": 140,
+      "Twitter|Real": 695,
+      "Twitter|Fake": 668,
+      "Twitter|Bot": 1344
+    }
+  },
+  "augmentation": {
+    "smote": {
+      "used": true,
+      "scope": "per platform x class cell, training split only",
+      "min_cell_rows": 300,
+      "target_cell_rows": 2500,
+      "k_neighbors": 5
+    },
+    "feature_group_masking": {
+      "groups": {
+        "identity": [
+          "name_eq_username",
+          "has_profile_pic",
+          "is_private"
+        ],
+        "username": [
+          "username_digit_ratio"
+        ],
+        "bio": [
+          "bio_len"
+        ]
+      },
+      "probability": 0.5
+    },
+    "sample_weights": "equal total weight per platform x class cell, then per class",
+    "rows": {
+      "real_rows": 16489,
+      "after_smote": 21086,
+      "after_masking": 42172
+    }
+  },
+  "deployed_model": {
+    "name": "VotingClassifier",
+    "note": "The app serves predictions from this ONE model (models/best_model.pkl). The other rows under 'all_models_compared' are evaluation-time comparisons."
+  },
+  "verdict_rule": {
+    "inconclusive_below_top_class_probability": 0.7,
+    "behaviour_on_test_split": {
+      "threshold": 0.7,
+      "share_inconclusive": 0.0793,
+      "accuracy_when_confident": 0.9821,
+      "real_called_bot_without_band": 0.026,
+      "real_called_bot_with_band": 0.0075
+    }
+  },
+  "held_out_platform_check": {
+    "what": "Selected model type retrained WITHOUT one platform and tested only on it. This is the honest cross-platform number; the random-split scores above are optimistic because test rows come from the same sources as training rows.",
+    "results": {
+      "Facebook": {
+        "n": 600,
+        "Real_recall": 0.429,
+        "Bot_recall": 0.922,
+        "real_called_bot": 0.479,
+        "real_called_bot_with_inconclusive_band": 0.31,
+        "share_inconclusive": 0.543
+      },
+      "Instagram": {
+        "n": 6477,
+        "Real_recall": 0.283,
+        "Fake_recall": 0.086,
+        "Bot_recall": 0.918,
+        "real_called_bot": 0.715,
+        "real_called_bot_with_inconclusive_band": 0.408,
+        "share_inconclusive": 0.571
+      },
+      "Twitter": {
+        "n": 13535,
+        "Real_recall": 0.972,
+        "Fake_recall": 0.571,
+        "Bot_recall": 0.0,
+        "real_called_bot": 0.0,
+        "real_called_bot_with_inconclusive_band": 0.0,
+        "share_inconclusive": 0.314
+      }
+    }
+  },
+  "all_models_compared": {
+    "XGBoost": {
+      "accuracy": 0.9595,
+      "precision_weighted": 0.96,
+      "recall_weighted": 0.9595,
+      "f1_weighted": 0.9595,
+      "f1_macro": 0.9613,
+      "roc_auc": 0.9941,
+      "per_class": {
+        "Real": {
+          "precision": 0.9306,
+          "recall": 0.9631,
+          "f1": 0.9466,
+          "support": 1463
+        },
+        "Fake": {
+          "precision": 0.9835,
+          "recall": 0.9835,
+          "f1": 0.9835,
+          "support": 1155
+        },
+        "Bot": {
+          "precision": 0.9704,
+          "recall": 0.9375,
+          "f1": 0.9537,
+          "support": 1505
+        }
+      },
+      "confusion_matrix": [
+        [
+          1409,
+          16,
+          38
+        ],
+        [
+          14,
+          1136,
+          5
+        ],
+        [
+          91,
+          3,
+          1411
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "Real",
+        "Fake",
+        "Bot"
+      ],
+      "confusion_matrix_note": "rows = actual class, columns = predicted class"
+    },
+    "LightGBM": {
+      "accuracy": 0.9588,
+      "precision_weighted": 0.9592,
+      "recall_weighted": 0.9588,
+      "f1_weighted": 0.9588,
+      "f1_macro": 0.9605,
+      "roc_auc": 0.9937,
+      "per_class": {
+        "Real": {
+          "precision": 0.9318,
+          "recall": 0.9624,
+          "f1": 0.9469,
+          "support": 1463
+        },
+        "Fake": {
+          "precision": 0.9835,
+          "recall": 0.981,
+          "f1": 0.9822,
+          "support": 1155
+        },
+        "Bot": {
+          "precision": 0.9671,
+          "recall": 0.9382,
+          "f1": 0.9524,
+          "support": 1505
+        }
+      },
+      "confusion_matrix": [
+        [
+          1408,
+          15,
+          40
+        ],
+        [
+          14,
+          1133,
+          8
+        ],
+        [
+          89,
+          4,
+          1412
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "Real",
+        "Fake",
+        "Bot"
+      ],
+      "confusion_matrix_note": "rows = actual class, columns = predicted class"
+    },
+    "RandomForest": {
+      "accuracy": 0.9496,
+      "precision_weighted": 0.9497,
+      "recall_weighted": 0.9496,
+      "f1_weighted": 0.9495,
+      "f1_macro": 0.9519,
+      "roc_auc": 0.9908,
+      "per_class": {
+        "Real": {
+          "precision": 0.9231,
+          "recall": 0.944,
+          "f1": 0.9334,
+          "support": 1463
+        },
+        "Fake": {
+          "precision": 0.9785,
+          "recall": 0.9861,
+          "f1": 0.9823,
+          "support": 1155
+        },
+        "Bot": {
+          "precision": 0.9535,
+          "recall": 0.9269,
+          "f1": 0.94,
+          "support": 1505
+        }
+      },
+      "confusion_matrix": [
+        [
+          1381,
+          21,
+          61
+        ],
+        [
+          9,
+          1139,
+          7
+        ],
+        [
+          106,
+          4,
+          1395
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "Real",
+        "Fake",
+        "Bot"
+      ],
+      "confusion_matrix_note": "rows = actual class, columns = predicted class"
+    },
+    "AdaBoost": {
+      "accuracy": 0.8829,
+      "precision_weighted": 0.8829,
+      "recall_weighted": 0.8829,
+      "f1_weighted": 0.8825,
+      "f1_macro": 0.8875,
+      "roc_auc": 0.9552,
+      "per_class": {
+        "Real": {
+          "precision": 0.839,
+          "recall": 0.8653,
+          "f1": 0.852,
+          "support": 1463
+        },
+        "Fake": {
+          "precision": 0.9363,
+          "recall": 0.968,
+          "f1": 0.9519,
+          "support": 1155
+        },
+        "Bot": {
+          "precision": 0.8845,
+          "recall": 0.8346,
+          "f1": 0.8588,
+          "support": 1505
+        }
+      },
+      "confusion_matrix": [
+        [
+          1266,
+          51,
+          146
+        ],
+        [
+          19,
+          1118,
+          18
+        ],
+        [
+          224,
+          25,
+          1256
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "Real",
+        "Fake",
+        "Bot"
+      ],
+      "confusion_matrix_note": "rows = actual class, columns = predicted class"
+    },
+    "VotingClassifier": {
+      "accuracy": 0.9597,
+      "precision_weighted": 0.9602,
+      "recall_weighted": 0.9597,
+      "f1_weighted": 0.9598,
+      "f1_macro": 0.9615,
+      "roc_auc": 0.9933,
+      "per_class": {
+        "Real": {
+          "precision": 0.9319,
+          "recall": 0.9631,
+          "f1": 0.9472,
+          "support": 1463
+        },
+        "Fake": {
+          "precision": 0.9836,
+          "recall": 0.9844,
+          "f1": 0.984,
+          "support": 1155
+        },
+        "Bot": {
+          "precision": 0.9698,
+          "recall": 0.9375,
+          "f1": 0.9534,
+          "support": 1505
+        }
+      },
+      "confusion_matrix": [
+        [
+          1409,
+          16,
+          38
+        ],
+        [
+          12,
+          1137,
+          6
+        ],
+        [
+          91,
+          3,
+          1411
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "Real",
+        "Fake",
+        "Bot"
+      ],
+      "confusion_matrix_note": "rows = actual class, columns = predicted class"
+    }
+  }
+}

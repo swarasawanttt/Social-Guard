@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inquiry Interrupted | The Social Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f6",
+                        "surface-container-highest": "#e4e2df",
+                        "surface-variant": "#e4e2df",
+                        "on-secondary-fixed": "#002019",
+                        "primary-container": "#475d7a",
+                        "inverse-primary": "#b1c8ea",
+                        "on-tertiary-fixed-variant": "#494361",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#46405e",
+                        "surface-container": "#efeeeb",
+                        "on-primary-fixed-variant": "#324864",
+                        "background": "#fbf9f6",
+                        "on-primary-fixed": "#021c36",
+                        "tertiary-fixed-dim": "#cbc1e6",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f0ed",
+                        "primary": "#2f4561",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b1c8ea",
+                        "surface-bright": "#fbf9f6",
+                        "surface-container-high": "#eae8e5",
+                        "on-secondary-container": "#406d61",
+                        "on-tertiary-fixed": "#1d1733",
+                        "secondary-fixed-dim": "#a1d0c1",
+                        "secondary": "#3a675b",
+                        "on-surface-variant": "#43474d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e7deff",
+                        "inverse-surface": "#30312f",
+                        "on-tertiary-container": "#d8cff4",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad7",
+                        "primary-fixed": "#d3e4ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-primary-container": "#bfd6f8",
+                        "on-background": "#1b1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1c1a",
+                        "tertiary-container": "#5e5777",
+                        "secondary-container": "#bdeddd",
+                        "surface-container-low": "#f5f3f0",
+                        "on-secondary-fixed-variant": "#214e43",
+                        "outline": "#74777e",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#4a607d",
+                        "secondary-fixed": "#bdeddd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
+<!-- TopNavBar -->
+<nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg docked full-width top-0 sticky z-50 no-border shadow-sm bg-surface-container-low shadow-xl shadow-slate-900/5 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-800 dark:text-white font-headline">
+                The Social Guard
+            </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-sm font-medium tracking-tight" href="/">Home</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-slate-700 dark:border-slate-200 pb-1 font-manrope text-sm font-medium tracking-tight" href="/detect">Detect</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-sm font-medium tracking-tight" href="/about">About</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-sm font-medium tracking-tight" href="#">Features</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-sm font-medium tracking-tight" href="#">Contact</a>
+<button class="ml-4 px-6 py-2 bg-primary text-on-primary rounded-full font-label text-xs font-bold uppercase tracking-widest hover:shadow-lg transition-all">Sign In</button>
+</div>
+</div>
+</nav>
+<main class="min-h-[819px] flex items-center justify-center px-6 py-20 relative overflow-hidden">
+<!-- Asymmetric Background Elements -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-tertiary/5 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center relative z-10">
+<!-- Visual Section -->
+<div class="md:col-span-5 order-2 md:order-1">
+<div class="aspect-[4/5] rounded-lg overflow-hidden bg-surface-container shadow-2xl shadow-on-surface/5 relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Minimalist architectural interior with soft shadows falling across a white textured wall and a single vintage library chair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA0RQZdfnKJcJAcGv5o6-gRcFGVfg1yPqGwR1H4p8nB-WCa-1XkNDMmYg14mvUUfexG3M6kwCJhKZOyvLBLvxyFO4K10TS9B7xyPtR7S7ssUBR6CRdcqqYTflIHW7glOES0xGc-REVAkKZDrTf_8cOjEgVyhI6B9BWsz3Zc3X8zY369Rg9wqZC5dKx0YSxf3dXVM9-Awz9ZYC_jE09bk6phsVdCea4L8ZgN9gRqDERhqYVtLUjfbrNX-azymRi1PQNua8q1I3WpA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 text-white">
+<div class="text-error font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="error">error</span>
+<span class="text-xs uppercase tracking-widest font-label">System Notice</span>
+</div>
+<p class="text-sm font-light leading-relaxed opacity-90">Check that the username is correct and the profile is public, then try again.</p>
+</div>
+</div>
+</div>
+<!-- Content Section -->
+<div class="md:col-span-7 order-1 md:order-2 space-y-10">
+<div class="space-y-4">
+<h1 class="text-5xl font-headline font-extrabold tracking-tighter text-primary leading-tight">
+                        Unable to fetch <br/><span class="text-tertiary">profile data</span>
+</h1>
+<p class="text-body-lg text-on-surface-variant max-w-md leading-relaxed">{% if detail %}{{ detail }}{% else %}We couldn&rsquo;t read this profile. See the possible reasons below, then try again.{% endif %}</p>
+</div>
+<!-- Bento-style Reason Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container-lowest">
+<div class="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center mb-4 text-error">
+<span class="material-symbols-outlined" data-icon="lock_person">lock_person</span>
+</div>
+<h3 class="font-headline font-bold text-primary mb-2">Private Profile</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">The account is private, so its public stats can&rsquo;t be read.</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container-lowest">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined" data-icon="link_off">link_off</span>
+</div>
+<h3 class="font-headline font-bold text-primary mb-2">Invalid URL</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">The link or username doesn&rsquo;t look valid for the selected platform.</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container-lowest sm:col-span-2">
+<div class="flex items-center gap-6">
+<div class="w-10 h-10 shrink-0 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="dns">dns</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-primary mb-1">Blocked or Timed Out</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">The platform may have blocked the request or responded too slowly. Trying again later can help.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Cluster -->
+<div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
+<button onclick="location.href='/detect'" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-b from-primary to-primary-container text-on-primary rounded-full font-label text-xs font-bold uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                        Retry Request
+                    </button>
+<button onclick="location.href='/detect'" class="w-full sm:w-auto px-8 py-4 bg-surface-container-highest text-primary rounded-full font-label text-xs font-bold uppercase tracking-widest hover:bg-surface-variant transition-colors flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-sm" data-icon="search">search</span>
+                        Return to Detection
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Contextual Back Button) -->
+<div class="fixed bottom-8 right-8 z-50 flex items-center justify-center">
+<button class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed bottom-8 right-8 w-16 h-16 rounded-full shadow-2xl shadow-slate-900/20 scale-100 active:scale-95 transition-transform duration-200 flex items-center justify-center group" onclick="location.href='/detect'">
+<span class="material-symbols-outlined text-slate-800 dark:text-slate-100 group-hover:scale-110 transition-transform" data-icon="arrow_back">arrow_back</span>
+</button>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="font-manrope text-xs leading-relaxed text-slate-600 dark:text-slate-400 text-center md:text-left">
+            © 2026 The Social Guard. Academic project: AI-based fake and bot account analysis.
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-xs leading-relaxed" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-manrope text-xs leading-relaxed" href="#">Terms of Service</a>
+</div>
+</footer>
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+</body></html>

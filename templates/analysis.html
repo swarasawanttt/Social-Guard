@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analysis in Progress | The Social Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f6",
+                        "surface-container-highest": "#e4e2df",
+                        "surface-variant": "#e4e2df",
+                        "on-secondary-fixed": "#002019",
+                        "primary-container": "#475d7a",
+                        "inverse-primary": "#b1c8ea",
+                        "on-tertiary-fixed-variant": "#494361",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#46405e",
+                        "surface-container": "#efeeeb",
+                        "on-primary-fixed-variant": "#324864",
+                        "background": "#fbf9f6",
+                        "on-primary-fixed": "#021c36",
+                        "tertiary-fixed-dim": "#cbc1e6",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f0ed",
+                        "primary": "#2f4561",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b1c8ea",
+                        "surface-bright": "#fbf9f6",
+                        "surface-container-high": "#eae8e5",
+                        "on-secondary-container": "#406d61",
+                        "on-tertiary-fixed": "#1d1733",
+                        "secondary-fixed-dim": "#a1d0c1",
+                        "secondary": "#3a675b",
+                        "on-surface-variant": "#43474d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e7deff",
+                        "inverse-surface": "#30312f",
+                        "on-surface": "#1b1c1a",
+                        "on-tertiary-container": "#d8cff4",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad7",
+                        "primary-fixed": "#d3e4ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-primary-container": "#bfd6f8",
+                        "on-background": "#1b1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#5e5777",
+                        "secondary-container": "#bdeddd",
+                        "surface-container-low": "#f5f3f0",
+                        "on-secondary-fixed-variant": "#214e43",
+                        "outline": "#74777e",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#4a607d",
+                        "secondary-fixed": "#bdeddd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .loader-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg docked full-width top-0 sticky z-50 shadow-xl shadow-slate-900/5 transition-all duration-300 ease-in-out">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-800 dark:text-white font-headline">
+                The Social Guard
+            </div>
+<div class="hidden md:flex items-center space-x-8 font-manrope text-sm font-medium tracking-tight">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="/">Home</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-slate-700 dark:border-slate-200 pb-1" href="/detect">Detect</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="/about">About</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="#">Features</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="#">Contact</a>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-6 py-2 rounded-full font-label text-xs uppercase tracking-widest transition-all shadow-lg shadow-primary/20">
+                Sign In
+            </button>
+</nav>
+</header>
+<main class="flex-grow flex items-center justify-center p-6 relative">
+<!-- Subtle Background Decorative Elements -->
+<div class="absolute top-1/4 left-10 w-96 h-96 bg-tertiary-fixed opacity-20 blur-[100px] rounded-full -z-10"></div>
+<div class="absolute bottom-1/4 right-10 w-80 h-80 bg-secondary-fixed opacity-20 blur-[100px] rounded-full -z-10"></div>
+<!-- Analysis Canvas -->
+<div class="max-w-3xl w-full">
+<div class="glass-panel rounded-lg shadow-2xl shadow-on-surface/5 p-10 md:p-16 border border-white/40">
+<!-- Hero Header -->
+<div class="text-center mb-12">
+<span class="inline-block px-4 py-1.5 rounded-full bg-tertiary/10 text-tertiary font-label text-[10px] font-bold uppercase tracking-widest mb-4">
+                        Analysis in Progress
+                    </span>
+<h1 class="text-3xl md:text-4xl font-headline font-bold text-primary tracking-tight leading-tight">
+                        Analyzing Account
+                    </h1>
+<p class="text-on-surface-variant mt-4 font-body text-base max-w-md mx-auto">
+                        Reading the public profile stats and running the model. This only takes a moment.
+                    </p>
+</div>
+<!-- Animated Progress Section -->
+<div class="relative w-full mb-16">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label text-xs font-bold text-primary uppercase tracking-tighter">Current Progress</span>
+<span class="font-headline text-2xl font-extrabold text-primary">0%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full loader-shimmer w-0 transition-none"></div>
+</div>
+</div>
+<!-- Status Activity Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+<!-- Status Item 1: Complete -->
+<div class="flex items-center space-x-4 opacity-100 transition-all">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body text-sm font-medium text-on-surface">Validating input</span>
+</div>
+<!-- Status Item 2: Complete -->
+<div class="flex items-center space-x-4 opacity-100 transition-all">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body text-sm font-medium text-on-surface">Collecting public data</span>
+</div>
+<!-- Status Item 3: Complete -->
+<div class="flex items-center space-x-4 opacity-100 transition-all">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body text-sm font-medium text-on-surface">Extracting features</span>
+</div>
+<!-- Status Item 4: Active -->
+<div class="flex items-center space-x-4 relative">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center ring-4 ring-tertiary/5">
+<span class="material-symbols-outlined text-tertiary text-lg animate-pulse" data-icon="neurology">neurology</span>
+</div>
+<span class="font-body text-sm font-bold text-tertiary">Running ML model</span>
+<span class="ml-auto w-2 h-2 rounded-full bg-tertiary animate-ping"></span>
+</div>
+<!-- Status Item 5: Pending -->
+<div class="flex items-center space-x-4 opacity-40">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="description">description</span>
+</div>
+<span class="font-body text-sm font-medium text-on-surface-variant">Generating explanation</span>
+</div>
+<!-- Status Item 6: Pending -->
+<div class="flex items-center space-x-4 opacity-40">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="analytics">analytics</span>
+</div>
+<span class="font-body text-sm font-medium text-on-surface-variant">Preparing results</span>
+</div>
+</div>
+<!-- Contextual Detail Card -->
+<div class="mt-12 pt-8 border-t border-surface-container-highest flex flex-col md:flex-row gap-6 items-center">
+<div class="w-full md:w-1/3">
+<div class="aspect-video rounded-lg overflow-hidden relative shadow-inner bg-surface-container-high">
+<img alt="Scientific research" class="w-full h-full object-cover mix-blend-overlay opacity-80" data-alt="Macro photography of a crystal lattice structure with soft lavender lighting and sharp geometric reflections in a laboratory setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ8SfyxLZ0DZeAxCGZ2p2C6dHH60KZvpYfTuQ90LtMi3lAby05BBhvcRudX1bd4EqYFfHyLqmjPRZAayB4Lk7eMv6-mcZp1Gmap1Kzo7F5PGmbnIPfbyZ_8GJ-q8rCrO8e70q2XHOKfoO_yChUnBvJ6CexGiOKNgnjJswkALWTdLELe0LuyBkl6GeZmS7Cr5stcZaOa6AqWR2g0H9JmoyV6415nO4nXWaKtYobYnkZuQhILsSBewBySiexh8BlLGayBjbbemAXCg"/>
+</div>
+</div>
+<div class="w-full md:w-2/3">
+<h4 class="font-headline text-sm font-bold text-primary mb-2">Good to know</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed font-body italic">
+                            The result is a statistical estimate based on public profile stats. Treat it as decision support, not proof.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Navigation / Floating Control -->
+<div class="fixed bottom-8 right-8 z-50 flex items-center justify-center">
+<button class="bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-slate-900/20 scale-100 active:scale-95 transition-transform duration-200 hover:scale-110" onclick="location.href='/detect'">
+<span class="material-symbols-outlined text-2xl" data-icon="arrow_back">arrow_back</span>
+</button>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-slate-600 dark:text-slate-400 font-manrope text-xs leading-relaxed">
+            © 2026 The Social Guard. Academic project: AI-based fake and bot account analysis.
+        </div>
+<div class="flex gap-8 items-center">
+<a class="text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 font-manrope text-xs transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 font-manrope text-xs transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+
+<script>
+(function() {
+    var bar    = document.querySelector('.loader-shimmer');
+    var pctEl  = document.querySelector('.text-2xl.font-extrabold.text-primary');
+    var start  = null;
+    var duration = 3500;
+
+    function step(ts) {
+        if (!start) start = ts;
+        var elapsed = ts - start;
+        var pct = Math.min((elapsed / duration) * 100, 100);
+
+        if (bar)   bar.style.width = pct.toFixed(0) + '%';
+        if (pctEl) pctEl.textContent = pct.toFixed(0) + '%';
+
+        if (pct < 100) {
+            requestAnimationFrame(step);
+        } else {
+            setTimeout(function() { window.location.href = '/analyze'; }, 300);
+        }
+    }
+    requestAnimationFrame(step);
+})();
+</script>
+</body></html>

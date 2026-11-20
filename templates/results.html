@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analysis Results - The Social Guard</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f6",
+                        "surface-container-highest": "#e4e2df",
+                        "surface-variant": "#e4e2df",
+                        "on-secondary-fixed": "#002019",
+                        "primary-container": "#475d7a",
+                        "inverse-primary": "#b1c8ea",
+                        "on-tertiary-fixed-variant": "#494361",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#46405e",
+                        "surface-container": "#efeeeb",
+                        "on-primary-fixed-variant": "#324864",
+                        "background": "#fbf9f6",
+                        "on-primary-fixed": "#021c36",
+                        "tertiary-fixed-dim": "#cbc1e6",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f0ed",
+                        "primary": "#2f4561",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b1c8ea",
+                        "surface-bright": "#fbf9f6",
+                        "surface-container-high": "#eae8e5",
+                        "on-secondary-container": "#406d61",
+                        "on-tertiary-fixed": "#1d1733",
+                        "secondary-fixed-dim": "#a1d0c1",
+                        "secondary": "#3a675b",
+                        "on-surface-variant": "#43474d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e7deff",
+                        "inverse-surface": "#30312f",
+                        "on-tertiary-container": "#d8cff4",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad7",
+                        "primary-fixed": "#d3e4ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-primary-container": "#bfd6f8",
+                        "on-background": "#1b1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1c1a",
+                        "tertiary-container": "#5e5777",
+                        "secondary-container": "#bdeddd",
+                        "surface-container-low": "#f5f3f0",
+                        "on-secondary-fixed-variant": "#214e43",
+                        "outline": "#74777e",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#4a607d",
+                        "secondary-fixed": "#bdeddd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-tertiary-fixed-dim selection:text-on-tertiary-fixed">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky z-50 glass-nav shadow-xl shadow-slate-900/5 bg-surface-container-low">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-800 font-headline">The Social Guard</div>
+<div class="hidden md:flex items-center space-gap-8 gap-8">
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="/">Home</a>
+<a class="font-manrope text-sm font-bold tracking-tight text-slate-900 border-b-2 border-slate-700 pb-1" href="/detect">Detect</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="/about">About</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="#">Features</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="#">Contact</a>
+</div>
+<button class="bg-primary hover:opacity-90 text-white px-6 py-2 rounded-full font-label text-xs uppercase tracking-widest transition-all">Sign In</button>
+</nav>
+</header>
+<main class="w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
+<!-- Header Section -->
+<section class="mb-12">
+<span class="font-label text-xs font-bold uppercase tracking-widest text-tertiary mb-2 block">Analysis Result</span>
+<h1 class="text-2xl md:text-4xl font-headline font-extrabold tracking-tight text-primary mb-4">Analysis Report — @{{ result.username }} ({{ result.platform }})</h1>
+<p class="text-on-surface-variant max-w-2xl font-body leading-relaxed">{{ result.summary }}</p>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Results Card -->
+<div class="col-span-1 lg:col-span-8 space-y-8">
+<div class="bg-surface-container-lowest rounded-xl p-10 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8">
+<!-- Confidence Circular Meter -->
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-width="8"></circle>
+<circle class="{% if result.label == "Real" %}text-secondary{% elif result.label == "Fake" %}text-error{% elif result.label == "Inconclusive" %}text-outline{% else %}text-tertiary{% endif %}" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-dasharray="351.85" stroke-dashoffset="{{ (351.85 * (1 - result.confidence/100)) | round(2) }}" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-2xl font-bold text-primary">{{ result.confidence }}%</span>
+<span class="text-[10px] uppercase tracking-tighter text-on-surface-variant">Model Confidence</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="md:pr-32">
+<!-- Classification Chip -->
+<div class="inline-flex items-center gap-2 {% if result.label == "Real" %}bg-secondary-container text-on-secondary-fixed-variant{% elif result.label == "Fake" %}bg-error-container text-on-error-container{% elif result.label == "Inconclusive" %}bg-surface-container-highest text-on-surface-variant{% else %}bg-tertiary-fixed text-on-tertiary-fixed-variant{% endif %} px-4 py-1.5 rounded-full mb-6">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">{% if result.label == "Inconclusive" %}help{% else %}verified{% endif %}</span>
+<span class="font-label text-xs font-bold uppercase tracking-wider">Classification: {{ result.label }}</span>
+</div>
+<h2 class="text-4xl font-headline font-bold text-primary mb-2">{% if result.label == "Real" %}Real Account{% elif result.label == "Fake" %}Fake Account{% elif result.label == "Inconclusive" %}Inconclusive &mdash; Review Manually{% else %}Bot Account{% endif %}</h2>
+<p class="text-on-surface-variant font-body">{{ result.summary }}</p>
+{% if result.label == "Inconclusive" %}<p class="text-[11px] text-on-surface-variant font-body mt-2 font-bold">No verdict is given: the model's highest probability is below the confidence needed to call the account. The score shown is for its closest class only.</p>{% endif %}
+<p class="text-[11px] text-on-surface-variant/70 font-body mt-2 italic">The confidence/output score above is the model's own predicted probability for this class — a relative signal strength, not a calibrated real-world certainty.</p>
+</div>
+<!-- Account Snapshot: the stats this verdict was based on -->
+{% set df = result.display_features %}
+{% set ds = result.data_source %}
+{% set ds_label = ("Read live from " ~ result.platform) if ds == "scraped" else ("Entered or confirmed by you" if ds == "manual" else "Source unknown") %}
+<div class="pt-6 border-t border-outline-variant/15">
+<div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+<span class="font-label text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Account Snapshot &middot; @{{ result.username }}</span>
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full {% if ds == 'scraped' %}bg-secondary-container/40 text-secondary{% else %}bg-tertiary-fixed/40 text-tertiary{% endif %}">
+<span class="material-symbols-outlined text-sm">{% if ds == 'scraped' %}cloud_done{% else %}edit_note{% endif %}</span>{{ ds_label }}
+</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+{% for label in ['Followers', 'Following', 'Posts', 'Bio Length'] %}
+<div class="bg-surface-container-low rounded-lg p-4 text-center">
+<span class="block text-2xl font-headline font-bold text-primary">{{ df.get(label, '—') }}</span>
+<span class="block font-label text-[10px] uppercase tracking-widest text-on-surface-variant mt-1">{{ label }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+<div class="grid grid-cols-3 gap-12 mt-4 pt-8 border-t border-outline-variant/15">
+<div>
+<span class="block font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Model Output Score</span>
+<span class="text-3xl font-headline font-bold text-primary">{{ (result.confidence / 100) | round(3) }}</span>
+</div>
+<div>
+<span class="block font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Signal Strength</span>
+<span class="text-3xl font-headline font-bold text-primary">{% if result.confidence >= 85 %}High{% elif result.confidence >= 65 %}Moderate{% else %}Low{% endif %}</span>
+</div>
+<div>
+<span class="block font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Entity Class</span>
+<span class="text-3xl font-headline font-bold text-primary">{{ result.label }}</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Behavioral Indicators Panel -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<h3 class="font-headline font-bold text-xl text-primary mb-6">Behavioral Indicators</h3>
+<div class="space-y-4">
+{% for ind in result.indicators %}
+{% set sev_bg = "bg-secondary-container/30" if ind.severity == "positive" else ("bg-error/10" if ind.severity == "critical" else "bg-tertiary-fixed/30") %}
+{% set sev_icon_color = "text-secondary" if ind.severity == "positive" else ("text-error" if ind.severity == "critical" else "text-tertiary") %}
+{% set status_icon = "check_circle" if ind.severity == "positive" else ("error" if ind.severity == "critical" else "warning") %}
+<div class="bg-surface-container-lowest p-5 rounded-lg flex items-start gap-4">
+<div class="w-10 h-10 rounded-full {{ sev_bg }} flex items-center justify-center {{ sev_icon_color }} shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">{{ ind.icon }}</span>
+</div>
+<div class="flex-1">
+<p class="text-sm text-on-surface leading-relaxed">{{ ind.text }}</p>
+</div>
+<span class="material-symbols-outlined {{ sev_icon_color }} shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">{{ status_icon }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+<!-- Explainability Panel (SHAP + LIME) -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<h3 class="font-headline font-bold text-xl text-primary mb-2">Why This Verdict</h3>
+<p class="text-xs text-on-surface-variant mb-6">
+    A real, per-account explanation computed from this account's own stats and the
+    trained model — not a canned reason reused across accounts.
+</p>
+
+{% if result.xai and result.xai.shap_available %}
+<!-- Dynamic narrative -->
+<div class="space-y-3 mb-8">
+{% for sentence in result.xai.narrative %}
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary text-lg mt-0.5">insights</span>
+<p class="text-sm text-on-surface leading-relaxed">{{ sentence }}</p>
+</div>
+{% endfor %}
+</div>
+
+<!-- SHAP bar chart -->
+<div class="mb-8">
+<h4 class="font-label text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">
+    SHAP Feature Contributions
+</h4>
+<div class="space-y-3">
+{% set max_abs = (result.xai.shap | map(attribute='value') | map('abs') | list | max) if result.xai.shap else 1 %}
+{% for row in result.xai.shap[:6] %}
+{% set bar_pct = ((row.value | abs) / max_abs * 100) | round(1) %}
+{% set bar_style = "width: " ~ bar_pct ~ "%;" %}
+<div>
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-xs font-bold text-on-surface">{{ row.display_name }}</span>
+<span class="text-xs font-bold {% if row.value >= 0 %}text-secondary{% else %}text-error{% endif %}">
+    {{ '%+.3f' | format(row.value) }}
+</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2.5 overflow-hidden">
+<div class="h-2.5 rounded-full {% if row.value >= 0 %}bg-secondary{% else %}bg-error{% endif %}" style="{{ bar_style }}"></div>
+</div>
+<span class="text-[10px] text-outline">{{ row.raw_value }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+
+<!-- LIME table -->
+{% if result.xai.lime_available %}
+<div>
+<h4 class="font-label text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+    LIME Local Approximation
+    {% if result.xai.lime_r2 is not none %}
+    <span class="text-outline font-normal">(local fit R&sup2; = {{ '%.2f' | format(result.xai.lime_r2) }})</span>
+    {% endif %}
+</h4>
+<div class="space-y-2 mt-3">
+{% for row in result.xai.lime[:6] %}
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/20 last:border-0">
+<span class="text-xs text-on-surface-variant">{{ row.display_name }} <span class="text-outline">({{ row.raw_value }})</span></span>
+<span class="text-xs font-bold {% if row.value >= 0 %}text-secondary{% else %}text-error{% endif %}">{{ '%+.3f' | format(row.value) }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+<p class="text-[10px] text-outline mt-6 leading-relaxed">
+{% if result.xai.background_source == 'trained_background' %}
+    Background reference: a saved sample of the model's own training data.
+{% elif result.xai.background_source == 'dataset_fallback' %}
+    Background reference: sampled directly from the processed dataset (no saved training background found).
+{% endif %}
+{% if result.xai.error %} &middot; Note: {{ result.xai.error }}{% endif %}
+</p>
+
+{% else %}
+<p class="text-sm text-on-surface-variant">
+    {{ (result.xai.error if result.xai else None) or "Explanation data is not available for this result." }}
+</p>
+{% endif %}
+</div>
+</div>
+<!-- Sidebar Panels -->
+<div class="col-span-1 lg:col-span-4 space-y-8">
+<!-- Action Panel -->
+<div class="bg-primary text-white rounded-xl p-8 shadow-2xl">
+<h3 class="font-headline font-bold text-xl mb-6">Your Report</h3>
+<div class="space-y-4">
+<button id="downloadBtn" data-pdf="{{ result.pdf_filename or '' }}" onclick="var f=this.getAttribute('data-pdf'); if(f){window.location.href='/download/'+f;}else{alert('Report not available');}"  class="w-full bg-white text-primary hover:bg-surface-container-low transition-colors py-4 rounded-full font-label text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined" data-icon="download">download</span>
+                            Download Report
+                        </button>
+<button onclick="location.href='/detect'" class="w-full border border-white/30 hover:bg-white/10 transition-colors py-4 rounded-full font-label text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined" data-icon="search">search</span>
+                            Analyze Another Account
+                        </button>
+</div>
+<p class="mt-8 text-[10px] text-white/60 font-body italic leading-relaxed text-center">
+                        This report is generated by an AI model and can make mistakes. Use it as decision support only.
+                    </p>
+</div>
+<!-- Profile Metrics Table -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<h4 class="font-headline font-bold text-primary mb-6">Collected Profile Metrics</h4>
+<div class="space-y-3">
+{% for key, val in result.display_features.items() %}
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/20 last:border-0">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-tighter">{{ key }}</span>
+<span class="text-sm font-bold text-primary">{{ val }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="fixed bottom-8 right-8 z-50 flex items-center justify-center">
+<a class="bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 rounded-full w-16 h-16 flex items-center justify-center shadow-2xl shadow-slate-900/20 hover:scale-110 active:scale-95 transition-all duration-200 group" href="/detect">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+<div class="absolute right-20 bg-white px-4 py-2 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+<span class="font-label text-xs font-bold uppercase tracking-widest text-primary">Go Back</span>
+</div>
+</a>
+</div>
+<!-- Footer -->
+<footer class="full-width bg-slate-50 border-t border-slate-100 mt-24">
+<div class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<div class="font-headline font-bold text-slate-800 text-lg">The Social Guard</div>
+<p class="font-manrope text-xs leading-relaxed text-slate-500 text-center md:text-left">
+                © 2026 The Social Guard. Academic project: AI-based fake and bot account analysis.
+            </p>
+<div class="flex gap-6">
+<a class="font-manrope text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Privacy Policy</a>
+<a class="font-manrope text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+</body></html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enter Profile Stats | The Social Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "surface": "#fbf9f6", "surface-container-highest": "#e4e2df",
+                "primary-container": "#475d7a", "on-primary": "#ffffff",
+                "tertiary": "#46405e", "surface-container": "#efeeeb",
+                "background": "#fbf9f6", "primary": "#2f4561",
+                "surface-container-high": "#eae8e5", "secondary": "#3a675b",
+                "on-surface-variant": "#43474d", "tertiary-fixed": "#e7deff",
+                "on-surface": "#1b1c1a", "secondary-container": "#bdeddd",
+                "surface-container-low": "#f5f3f0", "outline": "#74777e",
+                "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff",
+                "outline-variant": "#c4c6ce", "error": "#ba1a1a",
+                "on-tertiary-fixed-variant": "#494361", "tertiary-fixed-dim": "#cbc1e6",
+            },
+            fontFamily: { "headline": ["Manrope"], "body": ["Manrope"], "label": ["Manrope"] }
+        }
+    }
+}
+</script>
+<style>
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+
+<!-- Nav -->
+<header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-xl shadow-slate-900/5">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+    <div class="text-xl font-bold tracking-tighter text-slate-800">The Social Guard</div>
+    <div class="hidden md:flex items-center gap-8">
+        <a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors" href="/">Home</a>
+        <a class="font-manrope text-sm font-medium text-slate-900 font-bold border-b-2 border-slate-700 pb-1" href="/detect">Detect</a>
+        <a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors" href="/about">About</a>
+    </div>
+    <button class="bg-primary text-white px-6 py-2 rounded-full font-label text-xs uppercase tracking-widest">Sign In</button>
+</nav>
+</header>
+
+<main class="flex-grow flex items-center justify-center p-6">
+<div class="max-w-2xl w-full">
+
+    <!-- Info banner -->
+    <div class="mb-8 p-5 rounded-xl bg-tertiary-fixed border border-tertiary-fixed-dim flex items-start gap-4">
+        <span class="material-symbols-outlined text-tertiary mt-0.5">info</span>
+        <div>
+            <p class="font-bold text-sm text-primary mb-1">Manual Input Required — @{{ username }} ({{ platform }})</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">{{ error_message }}</p>
+            {% if platform != "Instagram" %}
+            <p class="text-xs text-on-surface-variant mt-2 leading-relaxed">
+                Open <strong>{{ platform }}</strong> in another tab, go to
+                <strong>@{{ username }}</strong>'s public profile, and enter the
+                visible numbers below.
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-surface-container-lowest rounded-xl shadow-lg p-8 md:p-12">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-tertiary-fixed rounded-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary" style="font-variation-settings:'FILL' 1">manage_accounts</span>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-primary">Profile Statistics</h2>
+                <p class="text-xs text-on-surface-variant">Enter what you can see on the public profile</p>
+            </div>
+        </div>
+
+        <form id="manual-form" action="/analyze" method="POST" class="space-y-6" novalidate>
+            <!-- Hidden fields -->
+            <input type="hidden" name="identifier"   value="{{ identifier }}"/>
+            <input type="hidden" name="platform"     value="{{ platform }}"/>
+            <input type="hidden" name="username"     value="{{ username }}"/>
+
+            <!-- Dynamic fields from scraper.py MANUAL_FIELDS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for field in fields %}
+            {% if field.name == 'bio_len' %}
+            <!-- Bio: the user pastes the TEXT; the length is counted for them -->
+            <div class="space-y-2 md:col-span-2">
+                <label class="text-[11px] font-bold uppercase tracking-wider text-outline px-1" for="bio_text">
+                    {{ field.label | replace(' length (chars)', '') | replace(' (chars)', '') }}
+                </label>
+                <textarea
+                    id="bio_text"
+                    name="bio_text"
+                    rows="3"
+                    maxlength="2000"
+                    placeholder="Copy the bio from the profile and paste it here. Leave empty if the profile has no bio."
+                    class="w-full bg-surface-container-high border-none rounded-lg py-4 px-4 text-on-surface
+                           placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all"
+                >{{ field.bio_text if field.bio_text is defined and field.bio_text else '' }}</textarea>
+                <input type="hidden" name="bio_len" id="bio_len" value="0"/>
+                <p class="text-[10px] text-outline px-1">Just paste the text. We count the characters for you.</p>
+            </div>
+            {% else %}
+            <div class="space-y-2">
+                <label class="text-[11px] font-bold uppercase tracking-wider text-outline px-1">
+                    {{ field.label }}
+                </label>
+                <input
+                    type="{{ field.type }}"
+                    name="{{ field.name }}"
+                    value="{{ field.value if field.value is defined and field.value is not none else '' }}"
+                    placeholder="{{ field.placeholder }}"
+                    {% if field.type == "number" %}min="0"{% endif %}
+                    data-field-type="{{ field.type }}"
+                    class="w-full bg-surface-container-high border-none rounded-lg py-4 px-4 text-on-surface
+                           placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all"
+                    required
+                />
+                {% if field.value is defined and field.value is not none and field.value != '' %}
+                <p class="text-[10px] text-amber-700 px-1">Auto-filled from the profile &mdash; please double-check.</p>
+                {% endif %}
+                {% if field.type == "text" %}
+                <p class="text-[10px] text-outline px-1">Accepts K / M / B suffixes (e.g. 1.2K, 239.8M)</p>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endfor %}
+            </div>
+
+            <!-- Validation error banner (hidden by default) -->
+            <div id="form-error" class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs"></div>
+
+            <!-- Screenshot upload alternative -->
+            <div class="flex items-center gap-3 py-2">
+                <div class="h-px flex-1 bg-outline-variant/30"></div>
+                <span class="text-[10px] uppercase tracking-widest text-outline">or</span>
+                <div class="h-px flex-1 bg-outline-variant/30"></div>
+            </div>
+            <button type="button" onclick="location.href='/upload-screenshots'"
+                class="w-full bg-surface-container-high text-primary border border-outline-variant/20
+                       font-label font-bold text-xs uppercase tracking-widest py-4 rounded-full
+                       hover:bg-surface-container-high/70 transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-sm">upload</span>
+                Upload Screenshots Instead
+            </button>
+
+            <!-- Submit -->
+            <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                <button type="submit"
+                    class="flex-1 bg-gradient-to-b from-primary to-primary-container text-white
+                           font-label font-bold text-xs uppercase tracking-widest py-5 rounded-full
+                           shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all
+                           active:scale-[0.98] flex items-center justify-center gap-2">
+                    Analyze Account
+                    <span class="material-symbols-outlined text-sm">verified</span>
+                </button>
+                <button type="button" onclick="location.href='/detect'"
+                    class="flex-1 bg-surface-container-low text-primary border border-outline-variant/20
+                           font-label font-bold text-xs uppercase tracking-widest py-5 rounded-full
+                           hover:bg-surface-container-high transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+                    Back
+                </button>
+            </div>
+        </form>
+
+        <script>
+        /**
+         * Convert a human-readable count string to an integer.
+         * Mirrors scraper.py parse_manual_value() — server always receives
+         * a plain integer regardless of how the user typed the value.
+         *   "239.8M" -> 239800000 | "1.2K" -> 1200 | "500+" -> 500
+         */
+        function parseCountValue(raw) {
+            if (!raw) return null;
+            const s = raw.trim().toUpperCase()
+                          .replace(/,/g, '').replace(/\+/g, '').replace(/\s/g, '');
+            if (!s) return null;
+            const suffixes = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
+            for (const [suffix, mult] of Object.entries(suffixes)) {
+                if (s.endsWith(suffix)) {
+                    const num = parseFloat(s.slice(0, -1));
+                    if (isNaN(num)) return null;
+                    return Math.round(num * mult);
+                }
+            }
+            const num = parseFloat(s);
+            return isNaN(num) ? null : Math.round(num);
+        }
+
+        document.getElementById('manual-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const errorBanner = document.getElementById('form-error');
+            const errors = [];
+
+            // Bio: count the pasted text (browsers use \n for line breaks here,
+            // which matches how the profile counts them).
+            const bioBox = document.getElementById('bio_text');
+            if (bioBox) {
+                document.getElementById('bio_len').value =
+                    Array.from(bioBox.value.replace(/\r\n/g, '\n').trim()).length;
+            }
+
+            // Text fields (counts that accept K/M/B): validate then convert to integer
+            this.querySelectorAll('input[data-field-type="text"]').forEach(input => {
+                const parsed = parseCountValue(input.value);
+                if (parsed === null || parsed < 0) {
+                    errors.push('"'+ input.getAttribute('name') +'" has an unrecognised value: "' + input.value + '". Use a number or add K/M/B (e.g. 1.2K).');
+                    input.classList.add('ring-2', 'ring-red-400');
+                } else {
+                    input.classList.remove('ring-2', 'ring-red-400');
+                    input.value = parsed;   // replace with clean integer before POST
+                }
+            });
+
+            // Number fields (e.g. username_len): plain integer validation
+            this.querySelectorAll('input[type="number"]').forEach(input => {
+                const v = parseInt(input.value, 10);
+                if (input.value === '' || isNaN(v) || v < 0) {
+                    errors.push('"'+ input.getAttribute('name') +'" must be a non-negative whole number.');
+                    input.classList.add('ring-2', 'ring-red-400');
+                } else {
+                    input.classList.remove('ring-2', 'ring-red-400');
+                }
+            });
+
+            if (errors.length > 0) {
+                errorBanner.classList.remove('hidden');
+                errorBanner.innerHTML = errors.map(err => '<p>&bull; ' + err + '</p>').join('');
+                errorBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+
+            errorBanner.classList.add('hidden');
+            this.submit();
+        });
+        </script>
+
+        <!-- Quick reference tip — platform-aware -->
+        <div class="mt-8 pt-6 border-t border-surface-container-highest">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-outline mb-3">Where to find these numbers</p>
+
+            {% if platform == "Twitter/X" %}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Followers &amp; Following</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Shown on profile header — tap to see count (may show "1.2K")</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Tweets / Posts</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Count shown below the username on profile</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Bio</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Copy their bio text and paste it into the Bio box</p>
+                </div>
+            </div>
+
+            {% elif platform == "Facebook" %}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Followers</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Listed under the profile name on the About tab</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Friends / Following</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Visible on the Friends tab if public</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Bio</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Copy their "Intro" text and paste it into the Bio box</p>
+                </div>
+            </div>
+
+            {% elif platform == "Instagram" %}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Followers &amp; Following</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Shown on profile header — tap count to see the full number</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Posts</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Grid post count shown at the top of the profile</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Bio</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Copy the bio text and paste it into the Bio box</p>
+                </div>
+            </div>
+
+            {% else %}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Followers &amp; Following</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Visible on profile header</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Posts</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Post count on profile</p>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-3 text-center">
+                    <p class="text-xs font-bold text-primary">Bio</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Copy the bio text and paste it into the Bio box</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full py-8 px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="text-xs text-slate-600">© 2026 The Social Guard. Academic project: AI-based fake and bot account analysis.</div>
+    <div class="flex gap-6">
+        <a class="text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Privacy Policy</a>
+        <a class="text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Terms of Service</a>
+    </div>
+</footer>
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+
+static/reports/*
+!static/reports/.gitkeep
+data/scrape_debug/
+data/collect/collected_raw.csv
+data/collect/collect_log.csv
+data/collect/needs_manual.csv
+data/collect/seeds.csv
+data/processed/unified_raw_backup_*.csv

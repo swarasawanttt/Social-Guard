@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Extracted Data | The Social Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "surface": "#fbf9f6", "surface-container-highest": "#e4e2df",
+                "primary-container": "#475d7a", "on-primary": "#ffffff",
+                "tertiary": "#46405e", "surface-container": "#efeeeb",
+                "background": "#fbf9f6", "primary": "#2f4561",
+                "surface-container-high": "#eae8e5", "secondary": "#3a675b",
+                "on-surface-variant": "#43474d", "tertiary-fixed": "#e7deff",
+                "on-surface": "#1b1c1a", "secondary-container": "#bdeddd",
+                "surface-container-low": "#f5f3f0", "outline": "#74777e",
+                "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff",
+                "outline-variant": "#c4c6ce", "error": "#ba1a1a",
+                "on-tertiary-fixed-variant": "#494361", "tertiary-fixed-dim": "#cbc1e6",
+            },
+            fontFamily: { "headline": ["Manrope"], "body": ["Manrope"], "label": ["Manrope"] }
+        }
+    }
+}
+</script>
+<style>
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+
+<header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-xl shadow-slate-900/5">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+    <div class="text-xl font-bold tracking-tighter text-slate-800">The Social Guard</div>
+    <div class="hidden md:flex items-center gap-8">
+        <a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors" href="/">Home</a>
+        <a class="font-manrope text-sm font-medium text-slate-900 font-bold border-b-2 border-slate-700 pb-1" href="/detect">Detect</a>
+        <a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors" href="/about">About</a>
+    </div>
+</nav>
+</header>
+
+<main class="flex-grow flex items-center justify-center p-6">
+<div class="max-w-3xl w-full py-8">
+
+    <div class="mb-8 p-5 rounded-xl bg-tertiary-fixed border border-tertiary-fixed-dim flex items-start gap-4">
+        <span class="material-symbols-outlined text-tertiary mt-0.5">fact_check</span>
+        <div>
+            <p class="font-bold text-sm text-primary mb-1">Review Extracted Data — @{{ username }} ({{ platform }})</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+                This is what we read from your {{ images|length }} screenshot{{ 's' if images|length != 1 else '' }}.
+                <strong>Fields marked Low or Not Found need a check</strong> — edit any value below before continuing.
+                Nothing here is used for analysis until you confirm.
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl shadow-lg p-8 md:p-12">
+
+        <form id="review-form" action="/analyze" method="POST" class="space-y-6">
+            <input type="hidden" name="identifier" value="{{ identifier }}"/>
+            <input type="hidden" name="platform"   value="{{ platform }}"/>
+
+            {% set conf_style = {
+                'high':   ('bg-secondary-container/40', 'text-secondary', 'check_circle', 'High confidence'),
+                'medium': ('bg-tertiary-fixed/40', 'text-tertiary', 'help', 'Medium — please check'),
+                'low':    ('bg-amber-100', 'text-amber-700', 'warning', 'Low — please verify'),
+                'none':   ('bg-error/10', 'text-error', 'error', 'Not found — please fill in'),
+            } %}
+
+            {% macro field_row(key, label, field, input_type='text', hint='') %}
+            {% set bg, fg, icon, tip = conf_style[field.confidence] %}
+            <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_auto] gap-3 items-center py-3 border-b border-outline-variant/20">
+                <label class="text-[11px] font-bold uppercase tracking-wider text-outline">{{ label }}</label>
+                <div>
+                    <input
+                        type="{{ input_type }}"
+                        name="{{ key }}"
+                        id="field-{{ key }}"
+                        value="{{ field.display }}"
+                        data-field-type="{{ input_type }}"
+                        {% if input_type == 'number' %}min="0"{% endif %}
+                        class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-on-surface
+                               focus:ring-2 focus:ring-primary/20 transition-all"
+                        required
+                    />
+                    {% if hint %}<p class="text-[10px] text-outline px-1 mt-1">{{ hint }}</p>{% endif %}
+                    {% if field.candidates and field.candidates|length > 1 %}
+                    <p class="text-[10px] text-amber-700 px-1 mt-1">
+                        Other possible readings: {{ field.candidates|join(', ') }}
+                    </p>
+                    {% endif %}
+                    {% if field.source_image %}
+                    <p class="text-[10px] text-outline px-1 mt-1">from {{ field.source_image }}</p>
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-1.5 {{ bg }} {{ fg }} text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-full whitespace-nowrap justify-center">
+                    <span class="material-symbols-outlined text-sm">{{ icon }}</span>
+                    {{ tip }}
+                </div>
+            </div>
+            {% endmacro %}
+
+            {{ field_row('username', 'Username', fields.username) }}
+            {{ field_row('followers', 'Followers', fields.followers, hint='Accepts K / M / B suffixes (e.g. 1.2K, 239.8M)') }}
+            {{ field_row('following', 'Following', fields.following, hint='Accepts K / M / B suffixes') }}
+            {{ field_row('posts', 'Posts', fields.posts, hint='Accepts K / M / B suffixes') }}
+            {% set bio = fields.bio_text %}
+            {% set bbg, bfg, bicon, btip = conf_style[bio.confidence] %}
+            <div class="grid grid-cols-1 md:grid-cols-[140px_1fr_auto] gap-3 items-start py-3 border-b border-outline-variant/20">
+                <label class="text-[11px] font-bold uppercase tracking-wider text-outline pt-3" for="field-bio_text">Bio</label>
+                <div>
+                    <textarea
+                        name="bio_text"
+                        id="field-bio_text"
+                        rows="3"
+                        maxlength="2000"
+                        placeholder="Paste the bio here. Leave empty if the profile has no bio."
+                        class="w-full bg-surface-container-high border-none rounded-lg py-3 px-4 text-on-surface
+                               focus:ring-2 focus:ring-primary/20 transition-all"
+                    >{{ bio.display if bio and bio.display else '' }}</textarea>
+                    <input type="hidden" name="bio_len" id="field-bio_len" value="0"/>
+                    <p class="text-[10px] text-outline px-1 mt-1">
+                        Check the text we read. If the bio ends with &ldquo;&hellip; more&rdquo; it was cut off &mdash;
+                        open the profile and paste the full text. We count the characters for you.
+                    </p>
+                    {% if bio.source_image %}
+                    <p class="text-[10px] text-outline px-1 mt-1">from {{ bio.source_image }}</p>
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-1.5 {{ bbg }} {{ bfg }} text-[10px] font-bold uppercase tracking-wider px-3 py-2 rounded-full whitespace-nowrap justify-center">
+                    <span class="material-symbols-outlined text-sm">{{ bicon }}</span>
+                    {{ btip }}
+                </div>
+            </div>
+            {{ field_row('username_len', 'Username length', fields.username_len, input_type='number') }}
+
+
+            {% if images %}
+            <div class="pt-2">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-outline mb-2">Screenshots processed</p>
+                <div class="flex flex-wrap gap-2">
+                {% for img in images %}
+                    <span class="text-[10px] bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant">
+                        {{ img.filename }} &middot; OCR confidence {{ img.ocr_conf }}%
+                    </span>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div id="form-error" class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs"></div>
+
+            <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                <button type="submit"
+                    class="flex-1 bg-gradient-to-b from-primary to-primary-container text-white
+                           font-label font-bold text-xs uppercase tracking-widest py-5 rounded-full
+                           shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all
+                           active:scale-[0.98] flex items-center justify-center gap-2">
+                    Confirm &amp; Analyze
+                    <span class="material-symbols-outlined text-sm">verified</span>
+                </button>
+                <button type="button" onclick="location.href='/upload-screenshots'"
+                    class="flex-1 bg-surface-container-low text-primary border border-outline-variant/20
+                           font-label font-bold text-xs uppercase tracking-widest py-5 rounded-full
+                           hover:bg-surface-container-high transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">refresh</span>
+                    Re-upload Screenshots
+                </button>
+            </div>
+        </form>
+
+        <script>
+        // Same count-parsing logic as manual_input.html — server receives
+        // plain integers for followers/following/posts regardless of how
+        // the field was edited ("650M", "1.2K", "45", etc).
+        function parseCountValue(raw) {
+            if (!raw) return null;
+            const s = raw.trim().toUpperCase().replace(/,/g, '').replace(/\+/g, '').replace(/\s/g, '');
+            if (!s) return null;
+            const suffixes = { K: 1e3, M: 1e6, B: 1e9 };
+            for (const suf in suffixes) {
+                if (s.endsWith(suf)) {
+                    const n = parseFloat(s.slice(0, -1));
+                    return isNaN(n) ? null : Math.round(n * suffixes[suf]);
+                }
+            }
+            const n = parseFloat(s);
+            return isNaN(n) ? null : Math.round(n);
+        }
+
+        document.getElementById('review-form').addEventListener('submit', function (e) {
+            const errBox = document.getElementById('form-error');
+            errBox.classList.add('hidden');
+            // Count the bio text for the user (same value the model expects).
+            document.getElementById('field-bio_len').value =
+                Array.from(document.getElementById('field-bio_text').value.replace(/\r\n/g, '\n').trim()).length;
+            const bad = [];
+            ['followers', 'following', 'posts'].forEach(name => {
+                const el = document.getElementById('field-' + name);
+                if (parseCountValue(el.value) === null) bad.push(name);
+            });
+            if (bad.length) {
+                e.preventDefault();
+                errBox.textContent = 'Please enter a valid number for: ' + bad.join(', ');
+                errBox.classList.remove('hidden');
+            }
+        });
+        </script>
+    </div>
+</div>
+</main>
+
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+</body>
+</html>

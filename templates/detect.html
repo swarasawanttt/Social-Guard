@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detect | The Social Guard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9f6",
+                        "surface-container-highest": "#e4e2df",
+                        "surface-variant": "#e4e2df",
+                        "on-secondary-fixed": "#002019",
+                        "primary-container": "#475d7a",
+                        "inverse-primary": "#b1c8ea",
+                        "on-tertiary-fixed-variant": "#494361",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#46405e",
+                        "surface-container": "#efeeeb",
+                        "on-primary-fixed-variant": "#324864",
+                        "background": "#fbf9f6",
+                        "on-primary-fixed": "#021c36",
+                        "tertiary-fixed-dim": "#cbc1e6",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f2f0ed",
+                        "primary": "#2f4561",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b1c8ea",
+                        "surface-bright": "#fbf9f6",
+                        "surface-container-high": "#eae8e5",
+                        "on-secondary-container": "#406d61",
+                        "on-tertiary-fixed": "#1d1733",
+                        "secondary-fixed-dim": "#a1d0c1",
+                        "secondary": "#3a675b",
+                        "on-surface-variant": "#43474d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e7deff",
+                        "inverse-surface": "#30312f",
+                        "on-tertiary-container": "#d8cff4",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad7",
+                        "primary-fixed": "#d3e4ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-primary-container": "#bfd6f8",
+                        "on-background": "#1b1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1c1a",
+                        "tertiary-container": "#5e5777",
+                        "secondary-container": "#bdeddd",
+                        "surface-container-low": "#f5f3f0",
+                        "on-secondary-fixed-variant": "#214e43",
+                        "outline": "#74777e",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#4a607d",
+                        "secondary-fixed": "#bdeddd",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky z-50 bg-white/80 backdrop-blur-lg shadow-xl shadow-slate-900/5">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-800">The Social Guard</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="/">Home</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-900 font-bold border-b-2 border-slate-700 pb-1" href="/detect">Detect</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="/about">About</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="#">Features</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-slate-500 hover:text-slate-800 transition-colors" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-manrope text-sm font-medium tracking-tight text-slate-700 hover:bg-slate-50/50 px-4 py-2 rounded-lg transition-all">Sign In</button>
+</div>
+</nav>
+</header>
+<main class="relative px-8 pt-12 pb-24 max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="mb-16 max-w-2xl">
+<span class="text-tertiary font-bold tracking-widest text-[10px] uppercase block mb-4">Account Analysis</span>
+<h1 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-6 leading-[1.1]">Check an Account</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">Choose a platform and enter a public profile link or username. The model estimates whether the account looks Real, Fake or Bot from its public profile statistics.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Main Content: Detection Form -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_32px_64px_-12px_rgba(27,28,26,0.06)] overflow-hidden">
+<div class="p-8 md:p-12">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 bg-tertiary-fixed rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<h2 class="text-xl font-bold text-primary tracking-tight">Account Detection</h2>
+</div>
+<form class="space-y-8" action="/loading" method="POST">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[11px] font-bold uppercase tracking-wider text-outline px-1">Platform</label>
+<div class="relative">
+<select name="platform" id="platform" class="w-full bg-surface-container-high border-none rounded-lg py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/10 transition-all appearance-none cursor-pointer" required>
+<option disabled="" selected="" value="">Select Platform</option>
+<option>Facebook</option>
+<option>Instagram</option>
+<option>Twitter/X</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-bold uppercase tracking-wider text-outline px-1">Profile link or username</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg py-4 px-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/10 transition-all" name="identifier" id="identifier" placeholder="e.g. instagram.com/username or @username" type="text" required/>
+</div>
+</div>
+<div class="pt-4 flex flex-col sm:flex-row gap-4">
+<button class="flex-1 bg-gradient-to-b from-primary to-primary-container text-white font-label font-bold text-xs uppercase tracking-[0.05em] py-5 rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+                                    Analyze Account
+                                    <span class="material-symbols-outlined text-sm">verified</span>
+</button>
+</div>
+</form>
+<div class="mt-12 p-6 bg-surface-container-low rounded-lg flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">info</span>
+<div class="space-y-1">
+<p class="text-sm font-bold text-primary">About your data</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">The Social Guard only uses public profile information. Anything you type or upload is used to produce your result and report.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel: Instructions & Platforms -->
+<aside class="lg:col-span-4 space-y-8">
+<!-- Supported Platforms Bento -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-6">Supported Networks</h3>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-secondary">photo_camera</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Instagram</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-tertiary">alternate_email</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Twitter/X</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-primary">groups</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Facebook</span>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-4 leading-relaxed">Other platforms are not supported.</p>
+</div>
+<!-- Instructions -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-6">Process Guide</h3>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<span class="text-xs font-bold text-tertiary bg-tertiary-fixed/30 w-6 h-6 flex items-center justify-center rounded-full shrink-0">1</span>
+<div>
+<p class="text-sm font-bold text-on-surface mb-1">Choose a platform</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Pick Instagram, Twitter/X or Facebook.</p>
+</div>
+</li>
+<li class="flex gap-4">
+<span class="text-xs font-bold text-tertiary bg-tertiary-fixed/30 w-6 h-6 flex items-center justify-center rounded-full shrink-0">2</span>
+<div>
+<p class="text-sm font-bold text-on-surface mb-1">Enter the account</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Paste the profile link or type the username.</p>
+</div>
+</li>
+<li class="flex gap-4">
+<span class="text-xs font-bold text-tertiary bg-tertiary-fixed/30 w-6 h-6 flex items-center justify-center rounded-full shrink-0">3</span>
+<div>
+<p class="text-sm font-bold text-on-surface mb-1">Get a result</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">The model checks the profile&rsquo;s public stats and returns Real, Fake, Bot or Inconclusive with a confidence score.</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Decorative Asset -->
+<div class="h-48 rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="abstract visualization of global data networks with glowing lines and points on a deep navy background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcFWJu0MPzXm-UQqxghqeg1GUNQ6_XvSX0EPfuJGvn77I62g750JONuFj6GhnptfkG9l5YQiYI_mfxBdfbLAX_jsMV0_0sA_kxzvAEAtQF9ntD_D_uAownjzJK2gKqxzYKx34P2xMQGRMhj5TMq8bOKycC5p8rSwAKKhaHiC36QvcMTOjPFJe1trzjUayOU9nvkm1Uk6DOjQK-diNqEbMpYUvdWPPtUVdFPbK73kKQejVmf5phKw75lyotrcUHtqK1_dmd1Nimhw"/>
+<div class="absolute inset-0 bg-primary/40 backdrop-multiply"></div>
+</div>
+</aside>
+</div>
+</main>
+<!-- SideNavBar (FAB Style) -->
+<div class="fixed bottom-8 right-8 z-50 flex items-center justify-center">
+<button class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-slate-800 text-white shadow-2xl shadow-slate-900/20 scale-100 active:scale-95 transition-transform duration-200 flex items-center justify-center group" onclick="location.href='\/'">
+<span class="material-symbols-outlined transition-transform group-hover:scale-110">arrow_back</span>
+</button>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50 border-t border-slate-100">
+<div class="font-manrope text-xs leading-relaxed text-slate-600">
+            © 2026 The Social Guard. Academic project: AI-based fake and bot account analysis.
+        </div>
+<div class="flex gap-6">
+<a class="font-manrope text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Privacy Policy</a>
+<a class="font-manrope text-xs text-slate-500 hover:text-slate-800 transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
+<div role="note" class="w-full bg-surface-container-low border-t border-outline-variant/30 px-8 md:px-24 py-4 text-center text-xs text-on-surface-variant leading-relaxed">
+The Social Guard uses AI and can make mistakes. Don't rely on its results alone &mdash; treat them as decision support and double-check anything important.
+</div>
+</body></html>

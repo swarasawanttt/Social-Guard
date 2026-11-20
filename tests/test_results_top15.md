@@ -1,0 +1,19 @@
+| TC ID | Test Case | Input | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|
+| TC1 | Valid profile URL is accepted | https://instagram.com/cristiano + Instagram | Accepted, no error | ok=True, message='' | PASS |
+| TC2 | Platform must match the link | Instagram selected + https://twitter.com/elonmusk | Rejected: platform does not match link | ok=False, message='You selected Instagram, but this link is for Twitter/X. Choose Twitter/X as the platform, or paste an Instagram profile link.' | PASS |
+| TC3 | Misspelled website is rejected with a hint | https://instagarm.com/cristiano + Instagram | Rejected, suggests the correct site | ok=False, message='“instagarm.com” isn't a supported site — did you misspell it? Did you mean instagram.com?  Try: https://instagram.com/cristiano' | PASS |
+| TC4 | Account that does not exist gives a clear error | Scraper reports 'not found' for @zzz | Error page: account not found, no manual form | landed on /error; message shown=True | PASS |
+| TC5 | Private / blocked profile falls back to manual entry | Scraper cannot read stats (private account) | Manual-entry form is shown | landed on /manual-input; form has followers field=True | PASS |
+| TC6 | Blank required fields are rejected | Followers = blank, Posts = blank | Validation error, no verdict | landed on /error | PASS |
+| TC7 | All-zero profile gets 'not enough data', not a verdict | 0 followers, 0 following, 0 posts | Clear 'not enough data' error | landed on /error; 'not enough information' message=True | PASS |
+| TC8 | Prediction output is well-formed | 480 / 520 / 95 / bio | Label in {Real, Fake, Bot}; probabilities sum to ~100%; confidence = highest probability | label=Real, confidence=83.4%, probabilities sum=100.0% | PASS |
+| TC9 | Spam-like profile is not classed as genuine | 40 followers, 3,500 following, 12 posts, no bio | Classified Fake or Bot (not Real) | Fake (80.3% confidence) | PASS |
+| TC10 | SHAP/LIME explanation is real and per-account, not static | Established account vs spam-like account | Different explanation for each | explanations differ=True | PASS |
+| TC11 | PDF report is generated | Completed prediction | A real PDF file on disk | report_instagram_tc_report_user_20261120_193735.pdf, 8,687 bytes, header b'%PDF-' | PASS |
+| TC12 | Stats are extracted from a profile screenshot | Drawn profile screenshot: 842 posts, 48.2K followers, 615 following | posts=842, followers=48200, following=615 | got {'posts': 842, 'followers': 48200, 'following': 615}; confidence {'posts': 'high', 'followers': 'high', 'following': 'high'} | PASS |
+| TC13 | Nothing is invented when a screenshot has no profile stats | Plain image with unrelated text | No field reported as high-confidence; no made-up bio | high-confidence fields: none | PASS |
+| TC14 | SMOTE runs per platform x class cell, on training data only | Training table with a large and a tiny cell | Large cell raised to target; tiny cell untouched; input unchanged; no platform mixing | IG cell 350 -> 2500; FB cell 40 -> 40; input unchanged=True; platforms not mixed=True | PASS |
+| TC15 | Script in a username is escaped, not executed | Username '<script>alert(1)</script>' | Raw <script> tag never appears in the page | landed on /results; raw script tag in page=False | PASS |
+
+**Total: 15 | PASS: 15 | FAIL: 0 | SKIP: 0**
